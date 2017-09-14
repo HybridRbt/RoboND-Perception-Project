@@ -138,7 +138,8 @@ if __name__ == '__main__':
 
     # TODO: ROS node initialization
 
-    # TODO: Create Subscribers
+    # Create Subscribers
+    pcl_sub = rospy.Subscriber("/pr2/world/points", pc2.PointCloud2, pcl_callback, queue_size=1)
 
     # TODO: Create Publishers
 
