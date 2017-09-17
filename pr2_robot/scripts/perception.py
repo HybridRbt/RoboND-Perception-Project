@@ -225,6 +225,9 @@ def pr2_mover(object_list):
             drop_pose_left = drop_pose_param[i]['position']
         else: # right
             drop_pose_right = drop_pose_param[i]['position']
+
+    # TODO: Rotate PR2 in place to capture side tables for the collision map
+
         # Wait for 'pick_place_routine' service to come up
         rospy.wait_for_service('pick_place_routine')
 
