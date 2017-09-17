@@ -246,6 +246,11 @@ def pr2_mover(object_list):
         pick_pose.position.x = np.asscalar(centr[0])
         pick_pose.position.y = np.asscalar(centr[1])
         pick_pose.position.z = np.asscalar(centr[2])
+
+        # Create 'place_pose' for the object
+        place_pose.position.x = object_drop_pos[0]
+        place_pose.position.y = object_drop_pos[1]
+        place_pose.position.z = object_drop_pos[2]
         # Wait for 'pick_place_routine' service to come up
         rospy.wait_for_service('pick_place_routine')
 
