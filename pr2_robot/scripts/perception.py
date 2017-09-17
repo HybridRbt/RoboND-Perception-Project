@@ -201,9 +201,10 @@ def pr2_mover(object_list):
     test_scene_num = Int32()
     test_scene_num.data = 1  # test world 1
 
-    # TODO: Parse parameters into individual variables
-
-    # TODO: Rotate PR2 in place to capture side tables for the collision map
+    object_name = String()
+    arm_name = String()
+    pick_pose = Pose()
+    place_pose = Pose()
 
     # TODO: Loop through the pick list
 
