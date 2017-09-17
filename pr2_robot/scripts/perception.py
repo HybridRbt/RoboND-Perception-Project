@@ -206,16 +206,15 @@ def pr2_mover(object_list):
     pick_pose = Pose()
     place_pose = Pose()
 
-    # TODO: Loop through the pick list
+    # create a dictionary to hold the names and its cloud data in the object_list
+    centroids_dic = {}
 
-        # TODO: Get the PointCloud for a given object and obtain it's centroid
-
-        # TODO: Create 'place_pose' for the object
-
-        # TODO: Assign the arm to be used for pick_place
-
-        # TODO: Create a list of dictionaries (made with make_yaml_dict()) for later output to yaml format
-
+    # traverse the object_list, build the dictionary
+    for detected_object in object_list:
+        label = detected_object.label
+        points_arr = ros_to_pcl(detected_object.cloud).to_array()
+        centroid = np.mean(points_arr, axis=0)[:3]
+        centroids_dic[label] = centroid
         # Wait for 'pick_place_routine' service to come up
         rospy.wait_for_service('pick_place_routine')
 
