@@ -24,7 +24,7 @@ from pr2_robot.srv import *
 from rospy_message_converter import message_converter
 import yaml
 
-from perception import *
+from perception_helper import *
 
 # Helper function to get surface normals
 def get_normals(cloud):
