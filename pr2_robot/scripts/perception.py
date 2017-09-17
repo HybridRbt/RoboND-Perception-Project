@@ -197,9 +197,9 @@ def pcl_callback(pcl_msg):
 # function to load parameters and request PickPlace service
 def pr2_mover(object_list):
 
-    # TODO: Initialize variables
-
-    # TODO: Get/Read parameters
+    # Initialize variables
+    test_scene_num = Int32()
+    test_scene_num.data = 1  # test world 1
 
     # TODO: Parse parameters into individual variables
 
