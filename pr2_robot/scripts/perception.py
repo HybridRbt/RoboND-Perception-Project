@@ -290,7 +290,12 @@ if __name__ == '__main__':
 
     # TODO: Create Publishers
 
-    # TODO: Load Model From disk
+    # Load Model From disk
+    model = pickle.load(open('model_1.sav', 'rb'))
+    clf = model['classifier']
+    encoder = LabelEncoder()
+    encoder.classes_ = model['classes']
+    scaler = model['scaler']
 
     # Initialize color_list
     get_color_list.color_list = []
