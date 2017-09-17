@@ -56,7 +56,7 @@ def color_clusters(pcl_data_xyz, cluster_indices):
 
 def statistical_outlier_fiter(pcl_data):
     # Start by creating a filter object:
-    outlier_filter = cloud_filtered.make_statistical_outlier_filter()
+    outlier_filter = pcl_data.make_statistical_outlier_filter()
 
     # Set the number of neighboring points to analyze for any given point
     outlier_filter.set_mean_k(50)
