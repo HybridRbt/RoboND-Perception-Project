@@ -275,6 +275,10 @@ def pr2_mover(object_list):
         #except rospy.ServiceException, e:
         #    print "Service call failed: %s"%e
 
+    # Output your request parameters into output yaml file
+    print "now ouput to yaml"
+    yaml_filename = 'output_1.yaml'
+    send_to_yaml(yaml_filename, dict_list)
 
 
 if __name__ == '__main__':
