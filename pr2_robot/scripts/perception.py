@@ -228,6 +228,10 @@ def pr2_mover(object_list):
 
     # TODO: Rotate PR2 in place to capture side tables for the collision map
 
+    # create the dict list
+    dict_list = []
+    # Loop through the pick list
+    for i in range(0, len(object_list_param)):
         # Parse parameters into individual variables
         object_name.data = object_list_param[i]['name']
         object_group = object_list_param[i]['group']
