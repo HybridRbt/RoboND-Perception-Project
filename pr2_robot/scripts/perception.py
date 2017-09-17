@@ -239,6 +239,13 @@ def pr2_mover(object_list):
         else:  # group == red
             arm_name.data = 'left'
             object_drop_pos = drop_pose_left
+
+        # Get the PointCloud for a given object and obtain it's centroid
+        # get the centroid from the dictionary
+        centr = centroids_dic[object_name.data]
+        pick_pose.position.x = np.asscalar(centr[0])
+        pick_pose.position.y = np.asscalar(centr[1])
+        pick_pose.position.z = np.asscalar(centr[2])
         # Wait for 'pick_place_routine' service to come up
         rospy.wait_for_service('pick_place_routine')
 
