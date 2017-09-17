@@ -251,6 +251,10 @@ def pr2_mover(object_list):
         place_pose.position.x = object_drop_pos[0]
         place_pose.position.y = object_drop_pos[1]
         place_pose.position.z = object_drop_pos[2]
+
+        # Create a list of dictionaries (made with make_yaml_dict()) for later output to yaml format
+        yaml_dict = make_yaml_dict(test_scene_num, arm_name, object_name, pick_pose, place_pose)
+        dict_list.append(yaml_dict)
         # Wait for 'pick_place_routine' service to come up
         rospy.wait_for_service('pick_place_routine')
 
