@@ -231,6 +231,14 @@ def pr2_mover(object_list):
         # Parse parameters into individual variables
         object_name.data = object_list_param[i]['name']
         object_group = object_list_param[i]['group']
+
+        # Assign the arm to be used for pick_place
+        if object_group == 'green':
+            arm_name.data = 'right'
+            object_drop_pos = drop_pose_right
+        else:  # group == red
+            arm_name.data = 'left'
+            object_drop_pos = drop_pose_left
         # Wait for 'pick_place_routine' service to come up
         rospy.wait_for_service('pick_place_routine')
 
