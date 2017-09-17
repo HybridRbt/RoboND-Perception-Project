@@ -215,6 +215,16 @@ def pr2_mover(object_list):
         points_arr = ros_to_pcl(detected_object.cloud).to_array()
         centroid = np.mean(points_arr, axis=0)[:3]
         centroids_dic[label] = centroid
+
+    # Get/Read parameters
+    object_list_param = rospy.get_param('/object_list')
+    drop_pose_param = rospy.get_param('/dropbox')
+
+    for i in range(0, len(drop_pose_param)):
+        if drop_pose_param[i]['name'] == 'left':
+            drop_pose_left = drop_pose_param[i]['position']
+        else: # right
+            drop_pose_right = drop_pose_param[i]['position']
         # Wait for 'pick_place_routine' service to come up
         rospy.wait_for_service('pick_place_routine')
 
