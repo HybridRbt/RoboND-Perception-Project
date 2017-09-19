@@ -36,18 +36,18 @@ def voxel_downsampling(pcl_data):
     #pcl.save(pcl_filtered, filename)
     return pcl_filtered
 
-def passthrough_filtering(pcl_data):
+def passthrough_filtering(filter_axis, min_limit, max_limit, pcl_data):
     # PassThrough filtering
     # Create a PassThrough filter objects
     passthrough = pcl_data.make_passthrough_filter()
 
     # Assign axis and range to the passthrough filter objects
-    filter_axis = 'z'
-    passthrough.set_filter_field_name(filter_axis)
+    axis = filter_axis
+    passthrough.set_filter_field_name(axis)
 
     # set the limits
-    axis_min = 0.6  # this retains the table and the objects
-    axis_max = 1.1
+    axis_min = min_limit  # this retains the table and the objects
+    axis_max = max_limit
 
     passthrough.set_filter_limits(axis_min, axis_max)
 
