@@ -238,6 +238,7 @@ def pr2_mover(object_list):
 
     # create the dict list
     dict_list = []
+    print("num of obj: " + str(len(object_list_param)))
     # Loop through the pick list
     for i in range(0, len(object_list_param)):
         # Parse parameters into individual variables
