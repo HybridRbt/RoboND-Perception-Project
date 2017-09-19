@@ -205,7 +205,9 @@ def pr2_mover(object_list):
 
     # Initialize variables
     test_scene_num = Int32()
-    test_scene_num.data = 1  # test world 1
+    # test_scene_num.data = 1  # test world 1
+    # test_scene_num.data = 2  # test world 2
+    test_scene_num.data = 3  # test world 3
 
     object_name = String()
     arm_name = String()
