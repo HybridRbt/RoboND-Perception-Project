@@ -31,6 +31,9 @@ def voxel_downsampling(pcl_data):
 
     # call the filter funciton to obtain the resultant downsampled point cloud
     pcl_filtered = vox.filter()
+    print("voxel_downsampling is done")
+    #filename = 'voxel_downsampled.pcd'
+    #pcl.save(pcl_filtered, filename)
     return pcl_filtered
 
 def passthrough_filtering(pcl_data):
@@ -50,6 +53,10 @@ def passthrough_filtering(pcl_data):
 
     # Finally, use the filter function to obtain the resultant point cloud
     pcl_filtered = passthrough.filter()
+
+    print("pass_through is done")
+    #filename = 'pass_through_filtered.pcd'
+    #pcl.save(pcl_filtered, filename)
     return pcl_filtered
 
 def plane_fitting(pcl_data):
@@ -77,9 +84,15 @@ def plane_fitting(pcl_data):
 def extract_inliers(inliers, pcl_data):
     # Extract inliers
     extracted_inliers = pcl_data.extract(inliers, negative=False)
+    print("inliers extracted")
+    #filename = 'extracted_inliers.pcd'
+    #pcl.save(extracted_inliers, filename)
     return extracted_inliers
 
 def extract_outliers(inliers, pcl_data):
     # Extract outliers
     extracted_outliers = pcl_data.extract(inliers, negative=True)
+    print("outliers extracted")
+    #filename = 'extracted_outliers.pcd'
+    #pcl.save(extracted_outliers, filename)
     return extracted_outliers
