@@ -111,15 +111,19 @@ def pcl_callback(pcl_msg):
 
     # Convert ROS msg to PCL data
     pcl_data = ros_to_pcl(pcl_msg)
+    pcl_original_pub.publish(pcl_msg)
 
     # Statistical Outlier Filtering
     pcl_noise_filtered = statistical_outlier_fiter(pcl_data)
+    pcl_no_noise_pub.publish(pcl_to_ros(pcl_noise_filtered))
 
     # Voxel Grid Downsampling
     pcl_downsampled = voxel_downsampling(pcl_noise_filtered)
+    pcl_voxel_downsampled_pub.publish(pcl_to_ros(pcl_downsampled))
 
     # PassThrough Filter
     pcl_passed = passthrough_filtering(pcl_downsampled)
+    pcl_passthrough_pub.publish(pcl_to_ros(pcl_passed))
 
     # RANSAC Plane Segmentation
     inliers = plane_fitting(pcl_passed)
