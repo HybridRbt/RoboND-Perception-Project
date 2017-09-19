@@ -320,6 +320,11 @@ if __name__ == '__main__':
     pcl_sub = rospy.Subscriber("/pr2/world/points", pc2.PointCloud2, pcl_callback, queue_size=1)
 
     # Create Publishers
+    pcl_original_pub = rospy.Publisher("/pcl_original", PointCloud2, queue_size=1)
+    pcl_no_noise_pub = rospy.Publisher("/pcl_no_noise", PointCloud2, queue_size=1)
+    pcl_voxel_downsampled_pub = rospy.Publisher("/pcl_voxel_downsampled", PointCloud2, queue_size=1)
+    pcl_passthrough_pub = rospy.Publisher("/pcl_passthrough", PointCloud2, queue_size=1)
+
     pcl_objects_pub = rospy.Publisher("/pcl_objects", PointCloud2, queue_size=1)
     pcl_table_pub = rospy.Publisher("/pcl_table", PointCloud2, queue_size=1)
     pcl_cluster_pub = rospy.Publisher("/pcl_cluster", PointCloud2, queue_size=1)
