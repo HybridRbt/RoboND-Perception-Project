@@ -122,7 +122,16 @@ def pcl_callback(pcl_msg):
     pcl_voxel_downsampled_pub.publish(pcl_to_ros(pcl_downsampled))
 
     # PassThrough Filter
-    pcl_passed = passthrough_filtering(pcl_downsampled)
+    # along z first
+    # pcl_passed = passthrough_filtering('z', 0.621, 1.16, pcl_downsampled) # for test world 2
+    pcl_passed = passthrough_filtering('z', 0.55, 1, pcl_downsampled)
+
+    # along x then
+    # pcl_passed = passthrough_filtering('x', -8, 8, pcl_passed)
+
+    # along y then
+    pcl_passed = passthrough_filtering('y', -0.5, 0.5, pcl_passed)
+
     pcl_passthrough_pub.publish(pcl_to_ros(pcl_passed))
 
     # RANSAC Plane Segmentation
