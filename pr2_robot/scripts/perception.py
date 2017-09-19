@@ -49,7 +49,8 @@ def clustering(pcl_data):
     # the lower this number, the more points each cluster has
     # but it cannot be too small otherwise there will be "noises" inside each
     # object
-    ec.set_MinClusterSize(5)
+    # ec.set_MinClusterSize(10)  # for test world 2
+    ec.set_MinClusterSize(5)  # for test world 3
 
     # Set maximum cluster size
     # the larger this number, the more ponints will show up
