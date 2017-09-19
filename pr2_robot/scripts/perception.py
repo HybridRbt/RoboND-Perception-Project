@@ -49,7 +49,8 @@ def clustering(pcl_data):
     # the lower this number, the more points each cluster has
     # but it cannot be too small otherwise there will be "noises" inside each
     # object
-    ec.set_MinClusterSize(5)
+    # ec.set_MinClusterSize(10)  # for test world 2
+    ec.set_MinClusterSize(5)  # for test world 3
 
     # Set maximum cluster size
     # the larger this number, the more ponints will show up
@@ -110,15 +111,28 @@ def pcl_callback(pcl_msg):
 
     # Convert ROS msg to PCL data
     pcl_data = ros_to_pcl(pcl_msg)
+    pcl_original_pub.publish(pcl_msg)
 
     # Statistical Outlier Filtering
     pcl_noise_filtered = statistical_outlier_fiter(pcl_data)
+    pcl_no_noise_pub.publish(pcl_to_ros(pcl_noise_filtered))
 
     # Voxel Grid Downsampling
     pcl_downsampled = voxel_downsampling(pcl_noise_filtered)
+    pcl_voxel_downsampled_pub.publish(pcl_to_ros(pcl_downsampled))
 
     # PassThrough Filter
-    pcl_passed = passthrough_filtering(pcl_downsampled)
+    # along z first
+    # pcl_passed = passthrough_filtering('z', 0.621, 1.16, pcl_downsampled) # for test world 2
+    pcl_passed = passthrough_filtering('z', 0.55, 1, pcl_downsampled)
+
+    # along x then
+    # pcl_passed = passthrough_filtering('x', -8, 8, pcl_passed)
+
+    # along y then
+    pcl_passed = passthrough_filtering('y', -0.5, 0.5, pcl_passed)
+
+    pcl_passthrough_pub.publish(pcl_to_ros(pcl_passed))
 
     # RANSAC Plane Segmentation
     inliers = plane_fitting(pcl_passed)
@@ -200,7 +214,9 @@ def pr2_mover(object_list):
 
     # Initialize variables
     test_scene_num = Int32()
-    test_scene_num.data = 1  # test world 1
+    # test_scene_num.data = 1  # test world 1
+    # test_scene_num.data = 2  # test world 2
+    test_scene_num.data = 3  # test world 3
 
     object_name = String()
     arm_name = String()
@@ -231,6 +247,7 @@ def pr2_mover(object_list):
 
     # create the dict list
     dict_list = []
+    print("num of obj: " + str(len(object_list_param)))
     # Loop through the pick list
     for i in range(0, len(object_list_param)):
         # Parse parameters into individual variables
@@ -247,10 +264,16 @@ def pr2_mover(object_list):
 
         # Get the PointCloud for a given object and obtain it's centroid
         # get the centroid from the dictionary
-        centr = centroids_dic[object_name.data]
-        pick_pose.position.x = np.asscalar(centr[0])
-        pick_pose.position.y = np.asscalar(centr[1])
-        pick_pose.position.z = np.asscalar(centr[2])
+        if object_name.data in centroids_dic:
+            centr = centroids_dic[object_name.data]
+            pick_pose.position.x = np.asscalar(centr[0])
+            pick_pose.position.y = np.asscalar(centr[1])
+            pick_pose.position.z = np.asscalar(centr[2])
+        else:
+            print(object_name.data + "was not found!")
+            pick_pose.position.x = 0.0
+            pick_pose.position.y = 0.0
+            pick_pose.position.z = 0.0
 
         # Create 'place_pose' for the object
         place_pose.position.x = object_drop_pos[0]
@@ -282,7 +305,9 @@ def pr2_mover(object_list):
 
     # Output your request parameters into output yaml file
     print "now ouput to yaml"
-    yaml_filename = 'output_1.yaml'
+    #yaml_filename = 'output_1.yaml'
+    # yaml_filename = 'output_2.yaml'
+    yaml_filename = 'output_3.yaml'
     send_to_yaml(yaml_filename, dict_list)
 
 
@@ -295,6 +320,11 @@ if __name__ == '__main__':
     pcl_sub = rospy.Subscriber("/pr2/world/points", pc2.PointCloud2, pcl_callback, queue_size=1)
 
     # Create Publishers
+    pcl_original_pub = rospy.Publisher("/pcl_original", PointCloud2, queue_size=1)
+    pcl_no_noise_pub = rospy.Publisher("/pcl_no_noise", PointCloud2, queue_size=1)
+    pcl_voxel_downsampled_pub = rospy.Publisher("/pcl_voxel_downsampled", PointCloud2, queue_size=1)
+    pcl_passthrough_pub = rospy.Publisher("/pcl_passthrough", PointCloud2, queue_size=1)
+
     pcl_objects_pub = rospy.Publisher("/pcl_objects", PointCloud2, queue_size=1)
     pcl_table_pub = rospy.Publisher("/pcl_table", PointCloud2, queue_size=1)
     pcl_cluster_pub = rospy.Publisher("/pcl_cluster", PointCloud2, queue_size=1)
@@ -302,7 +332,9 @@ if __name__ == '__main__':
     detected_objects_pub = rospy.Publisher("/detected_objects", DetectedObjectsArray, queue_size=1)
 
     # Load Model From disk
-    model = pickle.load(open('model_1.sav', 'rb'))
+    #model = pickle.load(open('model_1.sav', 'rb'))
+    # model = pickle.load(open('model_2.sav', 'rb'))
+    model = pickle.load(open('model_3.sav', 'rb'))
     clf = model['classifier']
     encoder = LabelEncoder()
     encoder.classes_ = model['classes']
