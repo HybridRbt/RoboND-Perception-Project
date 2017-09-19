@@ -305,7 +305,9 @@ def pr2_mover(object_list):
 
     # Output your request parameters into output yaml file
     print "now ouput to yaml"
-    yaml_filename = 'output_1.yaml'
+    #yaml_filename = 'output_1.yaml'
+    # yaml_filename = 'output_2.yaml'
+    yaml_filename = 'output_3.yaml'
     send_to_yaml(yaml_filename, dict_list)
 
 
