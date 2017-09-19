@@ -332,7 +332,9 @@ if __name__ == '__main__':
     detected_objects_pub = rospy.Publisher("/detected_objects", DetectedObjectsArray, queue_size=1)
 
     # Load Model From disk
-    model = pickle.load(open('model_1.sav', 'rb'))
+    #model = pickle.load(open('model_1.sav', 'rb'))
+    # model = pickle.load(open('model_2.sav', 'rb'))
+    model = pickle.load(open('model_3.sav', 'rb'))
     clf = model['classifier']
     encoder = LabelEncoder()
     encoder.classes_ = model['classes']
