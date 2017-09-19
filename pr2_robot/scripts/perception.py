@@ -264,10 +264,16 @@ def pr2_mover(object_list):
 
         # Get the PointCloud for a given object and obtain it's centroid
         # get the centroid from the dictionary
-        centr = centroids_dic[object_name.data]
-        pick_pose.position.x = np.asscalar(centr[0])
-        pick_pose.position.y = np.asscalar(centr[1])
-        pick_pose.position.z = np.asscalar(centr[2])
+        if object_name.data in centroids_dic:
+            centr = centroids_dic[object_name.data]
+            pick_pose.position.x = np.asscalar(centr[0])
+            pick_pose.position.y = np.asscalar(centr[1])
+            pick_pose.position.z = np.asscalar(centr[2])
+        else:
+            print(object_name.data + "was not found!")
+            pick_pose.position.x = 0.0
+            pick_pose.position.y = 0.0
+            pick_pose.position.z = 0.0
 
         # Create 'place_pose' for the object
         place_pose.position.x = object_drop_pos[0]
